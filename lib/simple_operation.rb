@@ -1,4 +1,4 @@
-#require "simple_operation/version"
+require "simple_operation/version"
 
 class SimpleOperation
 
