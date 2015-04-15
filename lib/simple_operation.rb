@@ -14,8 +14,13 @@ class SimpleOperation
           #{args.map { |arg| "@#{arg}= #{arg}" }.join(';') }
         end
 
+        def perform
+          call
+        end
+
         private
           #{args.map { |arg| "attr_reader :#{arg}" }.join(';') }
+
       code
     end
   end

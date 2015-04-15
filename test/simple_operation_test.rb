@@ -28,6 +28,16 @@ class SimpleOperationTest < Minitest::Test
     assert object.respond_to?(:call)
   end
 
+  def test_instance_call_runs_correctly
+    assert klass.new('Arnvald').()
+    refute klass.new('Grzegorz').()
+  end
+
+  def test_perform_aliases_to_call
+    assert klass.new('Arnvald').perform
+    refute klass.new('Grzegorz').perform
+  end
+
   def test_class_has_call_method
     assert klass.respond_to?(:call)
   end
