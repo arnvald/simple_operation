@@ -41,6 +41,12 @@ end
 
 
 CreateUser.('Grzegorz', 'arnvald.to@gmail.com')
+
+# the same effect as line above
+CreateUser.new('Grzegorz', 'arnvald.to@gmail.com').()
+
+# the same, but fits Rails ActiveJob's convention
+CreateUser.new('Grzegorz', 'arnvald.to@gmail.com').perform
 ```
 
 
