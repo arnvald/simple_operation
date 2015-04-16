@@ -8,6 +8,10 @@ class SimpleOperationTest < Minitest::Test
     assert SimpleOperation.new(:login)
   end
 
+  def test_runs_correctly_with_no_params
+    assert SimpleOperation.new
+  end
+
   def test_has_no_public_readers
     assert_raises(NoMethodError) { object.login }
   end
