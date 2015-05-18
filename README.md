@@ -25,15 +25,17 @@ Example usage for SimpleOperation is creating user:
 ```ruby
 class CreateUser < SimpleOperation.new(:login, :password)
 
+  InvalidUser = Class.new(RuntimeError)
+
   def call
     user = User.new(login, password)
-    validate_user(user)
+    raise InvalidUser unless valid_user?(user)
     UserRepository.persist(user)
     user
   end
 
   private
-    def validate_user(user)
+    def valid_user?(user)
       !UserRepository.fetch_all_logins.include?(user.login)
     end
 
@@ -47,6 +49,18 @@ CreateUser.new('Grzegorz', 'arnvald.to@gmail.com').()
 
 # `perform` is an alias for `call`
 CreateUser.new('Grzegorz', 'arnvald.to@gmail.com').perform
+```
+
+There's a sugar syntax for creating classes:
+
+```ruby
+require 'simple_operation/ext'
+
+class CreateUser < SimpleOperation(:login, :password)
+  def call
+    ...
+  end
+end
 ```
 
 
