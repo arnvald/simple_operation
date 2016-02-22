@@ -21,6 +21,14 @@ class SimpleOperation
         private
           #{args.map { |arg| "attr_reader :#{arg}" }.join(';') }
 
+          def self.result(*args)
+            @result_class = Struct.new(*args)
+          end
+
+          def result(*args)
+            self.class.instance_variable_get(:@result_class).new(*args)
+          end
+
       code
     end
   end

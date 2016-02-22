@@ -51,6 +51,21 @@ CreateUser.new('Grzegorz', 'arnvald.to@gmail.com').()
 CreateUser.new('Grzegorz', 'arnvald.to@gmail.com').perform
 ```
 
+If you need output that consists of more than one field, instead of returning multiple values,
+you can use `result` methods:
+
+```ruby
+class CreateCompanyAndUser < SimpleOperation(:name, :login, :password)
+  # result on class-level defines output structure
+  result :company, :user
+
+  def call
+    # result in call method returns defined structure
+    result create_company(name), create_user(login, password)
+  end
+end
+```
+
 There's a sugar syntax for creating classes:
 
 ```ruby
@@ -62,6 +77,7 @@ class CreateUser < SimpleOperation(:login, :password)
   end
 end
 ```
+
 
 
 ## Contributing
