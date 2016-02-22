@@ -6,6 +6,7 @@ class SimpleOperation
     args_list_with_nils = args.empty? ? '' : "#{args.join('=nil,')}=nil"
     Class.new do
       class_eval(&block) if block_given?
+
       class_eval <<-code
         def self.call #{args_list_with_nils}
           new(#{args.join(',')}).call
@@ -14,23 +15,22 @@ class SimpleOperation
         def initialize #{args_list_with_nils}
           #{args.map { |arg| "@#{arg}= #{arg}" }.join(';') }
         end
+      code
 
-        def perform
-          call
+      def perform
+        call
+      end
+
+      private
+        attr_reader(*args)
+
+        def self.result(*args)
+          @result_class = Struct.new(*args)
         end
 
-        private
-          #{args.map { |arg| "attr_reader :#{arg}" }.join(';') }
-
-          def self.result(*args)
-            @result_class = Struct.new(*args)
-          end
-
-          def result(*args)
-            self.class.instance_variable_get(:@result_class).new(*args)
-          end
-
-      code
+        def result(*args)
+          self.class.instance_variable_get(:@result_class).new(*args)
+        end
     end
   end
 
