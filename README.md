@@ -69,15 +69,24 @@ end
 There's a sugar syntax for creating classes:
 
 ```ruby
-require 'simple_operation/ext'
-
-class CreateUser < SimpleOperation(:login, :password)
+CreateUser = SimpleOperation.new(:login, :password) do
   def call
     ...
   end
 end
 ```
 
+or
+
+```ruby
+require 'simple_operation/ext'
+
+CreateUser = SimpleOperation(:login, :password)
+  def call
+    ...
+  end
+end
+```
 
 
 ## Contributing

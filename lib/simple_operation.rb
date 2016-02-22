@@ -2,9 +2,10 @@ require_relative './simple_operation/version'
 
 class SimpleOperation
 
-  def self.new(*args)
+  def self.new(*args, &block)
     args_list_with_nils = args.empty? ? '' : "#{args.join('=nil,')}=nil"
     Class.new do
+      class_eval(&block) if block_given?
       class_eval <<-code
         def self.call #{args_list_with_nils}
           new(#{args.join(',')}).call

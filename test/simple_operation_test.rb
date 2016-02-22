@@ -71,7 +71,7 @@ class SimpleOperationTest < Minitest::Test
     FindUserResult
   end
 
-  class FindUser < SimpleOperation.new(:login)
+  FindUser = SimpleOperation.new(:login) do
     def call
       login == 'Arnvald'
     end
