@@ -81,7 +81,7 @@ or
 ```ruby
 require 'simple_operation/ext'
 
-CreateUser = SimpleOperation(:login, :password)
+CreateUser = SimpleOperation(:login, :password) do
   def call
     ...
   end
