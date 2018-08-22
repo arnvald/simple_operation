@@ -25,7 +25,7 @@ class SimpleOperationTest < Minitest::Test
   end
 
   def test_reader_is_assigned_default_value
-    assert_equal klass.new.send(:login), nil
+    assert_nil klass.new.send(:login)
   end
 
   def test_instance_has_call_method
@@ -58,6 +58,15 @@ class SimpleOperationTest < Minitest::Test
     refute result_klass.('Grzegorz').found
   end
 
+  def test_returns_success
+    assert success_failure_klass.('Arnvald').success?
+    assert success_failure_klass.('Arnvald').user == {name: 'Grzegorz'}
+  end
+
+  def test_returns_failure
+    refute success_failure_klass.('').success?
+    assert success_failure_klass.('').error = 'invalid login'
+  end
 
   def object
     klass.new('Arnvald')
@@ -71,6 +80,10 @@ class SimpleOperationTest < Minitest::Test
     FindUserResult
   end
 
+  def success_failure_klass
+    FindUserSuccessFailure
+  end
+
   FindUser = SimpleOperation.new(:login) do
     def call
       login == 'Arnvald'
@@ -82,6 +95,19 @@ class SimpleOperationTest < Minitest::Test
 
     def call
       result(login == 'Arnvald')
+    end
+  end
+
+  class FindUserSuccessFailure < SimpleOperation.new(:login)
+    success :user
+    failure :error
+
+    def call
+      if login == 'Arnvald'
+        Success({name: "Grzegorz"})
+      else
+        Failure("invalid login")
+      end
     end
   end
 
