@@ -6,7 +6,11 @@ require_relative './simple_operation/builder'
 class SimpleOperation
 
   def self.new(*args, &block)
-    Builder::SplatOperation.build(args, &block)
+    if args.first.is_a?(Hash)
+      Builder::KeywordsOperation.build(args.first, &block)
+    else
+      Builder::SplatOperation.build(args, &block)
+    end
   end
 
 end

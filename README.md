@@ -195,6 +195,23 @@ result.number_of_transactions
 result.maximum_transaction
 ```
 
+### Keyword arguments (experimental)
+
+SimpleOperation supports keyword arguments format:
+
+```
+class SendRequest < SimpleOperation.new(method: :get, url: nil)
+  def call
+    ...
+  end
+end
+```
+
+**Caveat:** required keyword arguments are not supported, every argument needs to have a default value.
+The reason is that while defining method like `def method(val1:, val2:)` is valid Ruby syntax, it is
+impossible to call a method like that. Therefore it's impossible to call `SimpleOperation.new(arg:)`.
+Changing that behaviour would require some syntax changes and won't happen at least until version 2.0
+
 ## Contributing
 
 1. Fork it ( https://github.com/[my-github-username]/simple_operation/fork )
